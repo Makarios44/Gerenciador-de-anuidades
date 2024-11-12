@@ -51,7 +51,42 @@ main {
     padding: 20px;
 }
 
-/* Formatação das tabelas */
+/* Estilo para as abas */
+.tabs {
+    display: flex;
+    margin-bottom: 20px;
+    justify-content: flex-start;
+    background-color: #f1f1f1;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.tab-button {
+    background-color: #fff;
+    color: #333;
+    border: 1px solid #ddd;
+    padding: 12px 20px;
+    font-size: 1.1em;
+    cursor: pointer;
+    margin-right: 10px;
+    border-radius: 5px;
+}
+
+.tab-button:hover {
+    background-color: #f0f0f0;
+}
+
+.tab-button.active {
+    background-color: #4CAF50;
+    color: white;
+    border-color: #4CAF50;
+}
+
+.tab-content {
+    display: none;
+}
+
+/* Estilo das tabelas */
 table {
     width: 100%;
     border-collapse: collapse;
@@ -89,8 +124,7 @@ form {
 form input[type="text"],
 form input[type="number"],
 form input[type="date"],
-form select,
-form textarea {
+form input[type="email"] {
     width: 100%;
     padding: 10px;
     margin: 10px 0;
@@ -146,4 +180,36 @@ footer {
     padding: 15px;
     margin-top: 20px;
     font-size: 1em;
+}
+
+/* Estilo para a exibição das abas */
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+/* Responsividade para telas menores */
+@media (max-width: 768px) {
+    nav {
+        width: 100%;
+        position: relative;
+        height: auto;
+        margin-bottom: 20px;
+    }
+    
+    main {
+        margin-left: 0;
+    }
+    
+    .tabs {
+        flex-direction: column;
+    }
+
+    .tab-button {
+        width: 100%;
+        margin-bottom: 10px;
+    }
 }

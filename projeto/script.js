@@ -31,4 +31,19 @@ document.addEventListener("DOMContentLoaded", function() {
             showTab(event, button.getAttribute("onclick").split("'")[1]);
         });
     });
+
+    function filtrarPorAno() {
+        const anoSelecionado = document.getElementById("anoFiltro").value;
+        const linhas = document.querySelectorAll("#relatorio tbody tr");
+
+        linhas.forEach(linha => {
+            const anoPago = linha.cells[2].innerText; // Supondo que o ano pago esteja na terceira coluna
+            if (anoSelecionado === "" || anoPago === anoSelecionado) {
+                linha.style.display = "";
+            } else {
+                linha.style.display = "none";
+            }
+        });
+    }   
+
 });
