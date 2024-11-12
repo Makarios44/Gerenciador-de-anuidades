@@ -17,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['cadastrar_associado'])
         
         $associado_id = $pdo->lastInsertId();
 
-        // Associa o novo associado a todas as anuidades existentes
+     
         $sql = "INSERT INTO Pagamentos (associado_id, anuidade_id) SELECT :associado_id, id FROM Anuidades";
         $stmt = $pdo->prepare($sql);
         $stmt->execute([':associado_id' => $associado_id]);
@@ -36,8 +36,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['cadastrar_anuidade']))
     $valor = $_POST['valor'];
 
     try {
-        $pdo->beginTransaction(); // Inicia a transação
-        // Cadastro da anuidade
+        $pdo->beginTransaction(); 
+        // Cadastro 
         $sql = "INSERT INTO Anuidades (ano, valor) VALUES (:ano, :valor)";
         $stmt = $pdo->prepare($sql);
         $stmt->execute([':ano' => $ano, ':valor' => $valor]);
@@ -83,7 +83,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['calcular_anuidades']))
                 $total_devido += $anuidade['valor'];
             }
 
-            // Exibir o total devido apenas uma vez
             echo "Total devido por $nome: R$" . number_format($total_devido, 2, ',', '.');
         } else {
             echo "Associado não encontrado!";
@@ -128,10 +127,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['pagar_anuidade'])) {
     }
 }
 
-// Função para listar anuidades por ano e o status (pago ou em atraso)
+// Função para listar anuidades por ano e o status pago ou em atras
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['listar_anuidades_status'])) {
     try {
-        // SQL para buscar todas as anuidades de todos os associados e seu status (pago ou não)
+        // SQL para buscar todas as anuidades de todos os associados e seu status pago ou não
         $sql = "SELECT a.nome, a.cpf, an.ano, an.valor, 
                 CASE WHEN p.pago THEN 'Paga' ELSE 'Em Atraso' END AS status
                 FROM Associados a
@@ -193,7 +192,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['listar_anuidades_statu
 </head>
 <body>
     <div class="tabs">
-        <!-- Botões de navegação das abas -->
+
         <button class="tab-button active" onclick="showTab(event, 'cadastro_associado')">Cadastro Associado</button>
         <button class="tab-button" onclick="showTab(event, 'cadastro_anuidade')">Cadastro Anuidade</button>
         <button class="tab-button" onclick="showTab(event, 'calculo_anuidades')">Calcular Anuidade</button>
