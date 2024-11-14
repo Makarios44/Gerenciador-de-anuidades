@@ -17,10 +17,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['cadastrar_associado'])
         
         $associado_id = $pdo->lastInsertId();
 
-     
-        $sql = "INSERT INTO Pagamentos (associado_id, anuidade_id) SELECT :associado_id, id FROM Anuidades";
+        // Obter o ano da filiação para associar apenas as anuidades do ano de filiação em diante
+        $ano_filiacao = (new DateTime($data_filiacao))->format('Y');
+
+        // Associar apenas anuidades do ano de filiação em diante
+        $sql = "INSERT INTO Pagamentos (associado_id, anuidade_id)
+                SELECT :associado_id, id 
+                FROM Anuidades 
+                WHERE ano >= :ano_filiacao";
         $stmt = $pdo->prepare($sql);
-        $stmt->execute([':associado_id' => $associado_id]);
+        $stmt->execute([':associado_id' => $associado_id, ':ano_filiacao' => $ano_filiacao]);
 
         $pdo->commit();
         echo "Novo associado cadastrado com sucesso!";
@@ -29,6 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['cadastrar_associado'])
         echo "Erro ao cadastrar associado: " . $e->getMessage();
     }
 }
+
 
 // Função para cadastrar anuidades e associá-las automaticamente a todos os associados
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['cadastrar_anuidade'])) {
